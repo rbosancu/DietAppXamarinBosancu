@@ -38,16 +38,16 @@ namespace DietApp.PageModels
             _profileService = profileService;
             _validationService = validationService;
 
-            LastNameEntryViewModel = new OnboardingEntryViewModel("Nume", "White");
+            LastNameEntryViewModel = new OnboardingEntryViewModel("Nume*", "White");
             LastNameErrorLabel = new ErrorLabelModel();
 
-            FirstNameEntryViewModel = new OnboardingEntryViewModel("Prenume", "White");
+            FirstNameEntryViewModel = new OnboardingEntryViewModel("Prenume*", "White");
             FirstNameErrorLabel = new ErrorLabelModel();
 
-            HeightEntryViewModel = new OnboardingEntryViewModel("Greutate", "White", "Numeric");
+            HeightEntryViewModel = new OnboardingEntryViewModel("Înălțime (în cm)*", "White");
             HeightErrorLabel = new ErrorLabelModel();
 
-            WeightEntryViewModel = new OnboardingEntryViewModel("Inaltime", "White", "Numeric");
+            WeightEntryViewModel = new OnboardingEntryViewModel("Greutate (în kg)*", "White");
             WeightErrorLabel = new ErrorLabelModel();
 
             StartButton = new ButtonModel("Start", DoStartAction);
@@ -55,12 +55,14 @@ namespace DietApp.PageModels
 
         private async void DoStartAction()
         {
-            bool check = await _validationService.ValidateLastName(LastNameEntryViewModel, LastNameErrorLabel);
-            check = await _validationService.ValidateFirstName(FirstNameEntryViewModel, FirstNameErrorLabel);
+            bool checkLastName = await _validationService.ValidateLastName(LastNameEntryViewModel, LastNameErrorLabel);
+            bool checkFirstName = await _validationService.ValidateFirstName(FirstNameEntryViewModel, FirstNameErrorLabel);
+            bool checkHeight = await _validationService.ValidateHeight(HeightEntryViewModel, HeightErrorLabel);
+            bool checkWeight = await _validationService.ValidateWeight(WeightEntryViewModel, WeightErrorLabel);
 
-            if (check)
+            if (checkLastName && checkFirstName && checkHeight && checkWeight)
             {
-                await _profileService.SetUserInfo(new User(LastNameEntryViewModel.Text, FirstNameEntryViewModel.Text, HeightEntryViewModel.Text, WeightEntryViewModel.Text));
+                await _profileService.SetUserInfo(new User(LastNameEntryViewModel.Text, FirstNameEntryViewModel.Text, int.Parse(HeightEntryViewModel.Text), float.Parse(WeightEntryViewModel.Text)));
                 await _navigationService.NavigateToAsync<DashboardPageModel>();
             }
         }
