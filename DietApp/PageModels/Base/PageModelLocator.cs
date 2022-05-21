@@ -21,12 +21,12 @@ namespace DietApp.PageModels.Base
             _viewLookup = new Dictionary<Type, Type>();
 
             // Register pages and page models
-            Register<WelcomePageModel, WelcomePage>();
-            Register<OnboardingPageModel, OnboardingPage>();
-            Register<DashboardPageModel, DashboardPage>();
-            Register<DietPageModel, DietPage>();
-            Register<ProfilePageModel, ProfilePage>();
-            Register<SummaryPageModel, SummaryPage>();
+            RegisterPage<WelcomePageModel, WelcomePage>();
+            RegisterPage<OnboardingPageModel, OnboardingPage>();
+            RegisterPage<DashboardPageModel, DashboardPage>();
+            RegisterPage<DietPageModel, DietPage>();
+            RegisterPage<ProfilePageModel, ProfilePage>();
+            RegisterPage<SummaryPageModel, SummaryPage>();
 
             // Register Services
             _container.Register<INavigationService, NavigationService>();
@@ -49,7 +49,7 @@ namespace DietApp.PageModels.Base
             return page;
         }
 
-        static void Register<TPageModel, TPage>() where TPageModel : PageModelBase where TPage : Page
+        static void RegisterPage<TPageModel, TPage>() where TPageModel : PageModelBase where TPage : Page
         {
             _viewLookup.Add(typeof(TPageModel), typeof(TPage));
             _container.Register<TPageModel>();
