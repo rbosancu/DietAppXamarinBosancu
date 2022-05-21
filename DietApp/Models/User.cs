@@ -8,10 +8,10 @@ namespace DietApp.Models
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }
-        public string Height { get; set; }
-        public string Weight { get; set; }
+        public int Height { get; set; }
+        public float Weight { get; set; }
 
-        public User(string lastname, string firstname, string height, string weight)
+        public User(string lastname, string firstname, int height, float weight)
         {
             LastName = lastname;
             FirstName = firstname;
