@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skViews="clr-namespace:DietApp.Views.SKViews"
+             xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="DietApp.Pages.WelcomePage">
+    <ContentPage.Content>
+        <Grid>
+            <skViews:RectGradientView StartColor="{StaticResource PrimaryColor}" EndColor="{StaticResource SecondaryColor}" />
+            <StackLayout VerticalOptions="FillAndExpand">
+                <!-- App Icon -->
+
+                <Image WidthRequest="200" Aspect="AspectFit" HorizontalOptions="Center" Margin="20" Source="vegetables"/>
+
+                <labels:CustomLabel Text="Diet App" FontSize="40" />
+
+                <labels:CustomLabel Text="Bine ai venit, aceasta aplicatie te va ajuta sa ajungi in forma in doar 15 zile!" 
+                       FontSize="19" 
+                       Margin="30, 0, 30, 0"/>
+
+                <labels:CustomLabel Text="La pasul urmator vom avea nevoie de cateva informatii pentru a pregati o dieta personalizata pentru tine." 
+                       FontSize="19" 
+                       FontFamily="Nunito-Regular" 
+                       Margin="30, 50, 30, 0"/>
+
+                <StackLayout>
+                    <Button Text="{Binding ButtonText}" 
+                            Command="{Binding NextStepCommand}"
+                            WidthRequest="200" 
+                            HorizontalOptions="Center"
+                            BackgroundColor="White"
+                            TextColor="#2c9f45"
+                            Margin="0, 50, 0, 0"
+                             />
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
+                <labels:CustomLabel Text="Bosancu Robert Vasile" TextColor="{StaticResource PrimaryColor}" Padding="15"/>
+            </StackLayout>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

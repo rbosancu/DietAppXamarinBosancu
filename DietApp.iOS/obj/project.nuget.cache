@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "rW0BEEgxi9U4OQ/gRcWtyAxCJt1d53yZijwOkhoW4Et2FarLuqEwu9GNt+xfV9FBKeJQQjbowMMFaRhu5WEM5Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Danut\\source\\repos\\DietApp\\DietApp\\DietApp.iOS\\DietApp.iOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Danut\\.nuget\\packages\\skiasharp\\2.80.3\\skiasharp.2.80.3.nupkg.sha512",
+    "C:\\Users\\Danut\\.nuget\\packages\\skiasharp.views\\2.80.3\\skiasharp.views.2.80.3.nupkg.sha512",
+    "C:\\Users\\Danut\\.nuget\\packages\\skiasharp.views.forms\\2.80.3\\skiasharp.views.forms.2.80.3.nupkg.sha512",
+    "C:\\Users\\Danut\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Danut\\.nuget\\packages\\xamarin.essentials\\1.7.3\\xamarin.essentials.1.7.3.nupkg.sha512",
+    "C:\\Users\\Danut\\.nuget\\packages\\xamarin.forms\\5.0.0.2401\\xamarin.forms.5.0.0.2401.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:entries="clr-namespace:DietApp.Views.Entries"
+             xmlns:skViews="clr-namespace:DietApp.Views.SKViews"
+             x:Class="DietApp.Views.OnboardingEntryView">
+  <ContentView.Content>
+        <Grid RowDefinitions="40,2" WidthRequest="300" HorizontalOptions="CenterAndExpand" RowSpacing="0">
+            <entries:OnboardingEntry Placeholder="{Binding Placeholder}" 
+                                     PlaceholderColor="{Binding PlaceholderColor}"
+                                     TextColor="{Binding TextColor}"
+                                     Text="{Binding Text}"
+                                     Keyboard="{Binding Keyboard}"
+                                     x:Name="entryInput" 
+                                     IsPassword="{Binding IsPassword}"/>
+            <BoxView x:Name="bvUnderline" Color="White" Opacity="0.5" HeightRequest="2" Grid.Row="1"/>
+            <skViews:UnderlineGradientView  x:Name="ugvUnderline" StartColor="Transparent" EndColor="White" Grid.Row="1" ScaleX="0"/>
+        </Grid>
+  </ContentView.Content>
+</ContentView>

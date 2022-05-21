@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            xmlns:pages="clr-namespace:DietApp.Pages"
+            x:Class="DietApp.Pages.DashboardPage">
+
+    
+    <TabbedPage.Children >
+        <NavigationPage Title="Dieta">
+            <x:Arguments>
+                <pages:DietPage BindingContext="{Binding DietPageModel}" />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Profil">
+            <x:Arguments>
+                <pages:ProfilePage BindingContext="{Binding ProfilePageModel}" />
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Informatii" >
+            <x:Arguments>
+                <pages:SummaryPage BindingContext="{Binding SummaryPageModel}" />
+            </x:Arguments>
+        </NavigationPage>
+    </TabbedPage.Children>
+
+
+</TabbedPage>

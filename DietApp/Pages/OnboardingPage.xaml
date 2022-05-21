@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skViews="clr-namespace:DietApp.Views.SKViews"
+             xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             xmlns:views="clr-namespace:DietApp.Views"
+             xmlns:buttons="clr-namespace:DietApp.Views.Buttons"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="DietApp.Pages.OnboardingPage">
+    <ContentPage.Content>
+        <Grid>
+            <skViews:RectGradientView StartColor="{StaticResource PrimaryColor}" EndColor="{StaticResource SecondaryColor}" />
+            <StackLayout>
+                <!-- App Icon -->
+
+                <Image WidthRequest="200" Aspect="AspectFit" HorizontalOptions="Center" Margin="20" Source="vegetables"/>
+
+                <views:OnboardingEntryView BindingContext="{Binding LastNameEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding LastNameErrorLabel}" />
+                
+                <views:OnboardingEntryView BindingContext="{Binding FirstNameEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding FirstNameErrorLabel}" />
+                
+                <views:OnboardingEntryNumericView BindingContext="{Binding HeightEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding HeightErrorLabel}" />
+
+                <views:OnboardingEntryNumericView BindingContext="{Binding WeightEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding WeightErrorLabel}" />
+                
+                
+                <StackLayout>
+                    <buttons:BindableButton BindingContext="{Binding StartButton}" WidthRequest="200" 
+                                            HorizontalOptions="Center"
+                                            BackgroundColor="White"
+                                            TextColor="#2c9f45"
+                                            Margin="0, 50, 0, 0"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
+                <labels:CustomLabel Text="Bosancu Robert Vasile" TextColor="{StaticResource PrimaryColor}" Padding="15"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
