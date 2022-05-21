@@ -11,7 +11,7 @@ namespace DietApp.Services.Validation
     {
         Task<bool> ValidateLastName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
         Task<bool> ValidateFirstName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
-        Task<bool> ValidateHeightName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
-        Task<bool> ValidateWeightName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
+        Task<bool> ValidateHeight(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
+        Task<bool> ValidateWeight(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel);
     }
 }
