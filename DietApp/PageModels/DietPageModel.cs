@@ -1,4 +1,9 @@
-﻿using DietApp.PageModels.Base;
+﻿using DietApp.Models;
+using DietApp.PageModels.Base;
+using DietApp.Services.Database;
+using DietApp.Services.Helper;
+using DietApp.Services.Profile;
+using DietApp.ViewModels.Cards;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,40 +12,44 @@ namespace DietApp.PageModels
 {
     public class DietPageModel : PageModelBase
     {
-        int _currentDay;
+        private int _dailyCalories;
+        public DietCardViewModel BreakfastCardViewModel { get; set; }
+        public DietCardViewModel LunchCardViewModel { get; set; }
+        public DietCardViewModel DinnerCardViewModel { get; set; }
+
+        private int _currentDay;
+        private List<Aliment> _breakfasts;
+        private List<Aliment> _lunches;
+        private List<Aliment> _dinners;
+
+        private IProfileService _profileService;
+        private IHelperService _helperService;
+        private IDatabaseService _databaseService;
+
         public int CurrentDay
         {
             get => _currentDay;
             set => SetProperty(ref _currentDay, value);
         }
 
-        int _breakfastTotalCalories;
-        public int BreakfastTotalCalories
-        {
-            get => _breakfastTotalCalories;
-            set => SetProperty(ref _breakfastTotalCalories, value);
-        }
 
-        int _lunchTotalCalories;
-        public int LunchTotalCalories
+        public DietPageModel(IProfileService profileService, IHelperService helperService, IDatabaseService databaseService)
         {
-            get => _lunchTotalCalories;
-            set => SetProperty(ref _lunchTotalCalories, value);
-        }
+            _profileService = profileService;
+            _helperService = helperService;
+            _databaseService = databaseService;
 
-        int _dinnerTotalCalories;
-        public int DinnerTotalCalories
-        {
-            get => _dinnerTotalCalories;
-            set => SetProperty(ref _dinnerTotalCalories, value);
-        }
+            _dailyCalories = _helperService.DailyCalories(_profileService, _databaseService);
 
-        public DietPageModel()
-        {
+            _breakfasts = _helperService.BreakfastAliments(_databaseService.GetBreakfasts(), _helperService.BreakfastCalories(_dailyCalories));
+            _lunches = _helperService.RandomAliments(_databaseService.GetLunches(), _helperService.LunchCalories(_dailyCalories));
+            _dinners = _helperService.RandomAliments(_databaseService.GetDinners(), _helperService.DinnerCalories(_dailyCalories));
+
+            BreakfastCardViewModel = new DietCardViewModel("Mic Dejun", "#2c9f45", "breakfast", _helperService.CalculateTotalCalories(_breakfasts), _helperService.BreakfastCalories(_dailyCalories), _breakfasts);
+            LunchCardViewModel = new DietCardViewModel("Prânz", "#0099e5", "lunch", _helperService.CalculateTotalCalories(_lunches), _helperService.LunchCalories(_dailyCalories), _lunches);
+            DinnerCardViewModel = new DietCardViewModel("Cină", "#fd5c63", "dinner", _helperService.CalculateTotalCalories(_dinners), _helperService.DinnerCalories(_dailyCalories), _dinners);
+
             CurrentDay = 2;
-            BreakfastTotalCalories = 620;
-            LunchTotalCalories = 1000;
-            DinnerTotalCalories = 540;
         }
     }
 }

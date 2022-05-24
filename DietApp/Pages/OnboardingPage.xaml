@@ -10,17 +10,20 @@
     <ContentPage.Content>
         <Grid>
             <skViews:RectGradientView StartColor="{StaticResource PrimaryColor}" EndColor="{StaticResource SecondaryColor}" />
-            <StackLayout>
+            <StackLayout WidthRequest="300" HorizontalOptions="Center">
                 <!-- App Icon -->
 
                 <Image WidthRequest="200" Aspect="AspectFit" HorizontalOptions="Center" Margin="20" Source="vegetables"/>
 
-                <views:OnboardingEntryView BindingContext="{Binding LastNameEntryViewModel}" />
-                <labels:ErrorLabel BindingContext="{Binding LastNameErrorLabel}" />
+                <views:OnboardingPickerView BindingContext="{Binding GenderPickerViewModel}"/>
+                <labels:ErrorLabel BindingContext="{Binding GenderErrorLabel}" />
                 
-                <views:OnboardingEntryView BindingContext="{Binding FirstNameEntryViewModel}" />
-                <labels:ErrorLabel BindingContext="{Binding FirstNameErrorLabel}" />
-                
+                <views:OnboardingEntryView BindingContext="{Binding NameEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding NameErrorLabel}" />
+
+                <views:OnboardingEntryNumericView BindingContext="{Binding AgeEntryViewModel}" />
+                <labels:ErrorLabel BindingContext="{Binding AgeErrorLabel}" />
+
                 <views:OnboardingEntryNumericView BindingContext="{Binding HeightEntryViewModel}" />
                 <labels:ErrorLabel BindingContext="{Binding HeightErrorLabel}" />
 

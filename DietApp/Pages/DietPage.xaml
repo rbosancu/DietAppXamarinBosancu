@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             xmlns:Views="clr-namespace:DietApp.Views"
              x:Class="DietApp.Pages.DietPage">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image WidthRequest="35" Aspect="AspectFit" HorizontalOptions="StartAndExpand" Source="vegetables"/>
+            <Image Source="vegetables" WidthRequest="35" Aspect="AspectFit" HorizontalOptions="StartAndExpand" />
             <labels:CustomLabel Text="{Binding CurrentDay, StringFormat='Ziua {0} din 15'}" 
                                 HorizontalOptions="StartAndExpand" 
                                 FontSize="18" 
@@ -17,33 +18,14 @@
     
         <ContentPage.Content>
         <StackLayout>
-            <Frame Margin="10">
-                <StackLayout Orientation="Horizontal">
-                    <labels:CustomLabel Text="Mic Dejun" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="StartAndExpand" />
-                    <labels:CustomLabel Text="{Binding BreakfastTotalCalories, StringFormat='Total Calorii {0}'}"
-                                        FontFamily="Nunito-Regular"
-                                        TextColor="{StaticResource WarningColor}" 
-                                        HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-            <Frame Margin="10, 0, 10, 10">
-                <StackLayout Orientation="Horizontal">
-                    <labels:CustomLabel Text="Pranz" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="StartAndExpand" />
-                    <labels:CustomLabel Text="{Binding LunchTotalCalories, StringFormat='Total Calorii {0}'}"
-                                        FontFamily="Nunito-Regular"
-                                        TextColor="{StaticResource WarningColor}" 
-                                        HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-            <Frame Margin="10, 0, 10, 10">
-                <StackLayout Orientation="Horizontal">
-                    <labels:CustomLabel Text="Cina" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="StartAndExpand" />
-                    <labels:CustomLabel Text="{Binding DinnerTotalCalories, StringFormat='Total Calorii {0}'}"
-                                        FontFamily="Nunito-Regular"
-                                        TextColor="{StaticResource WarningColor}" 
-                                        HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
+
+            <Views:DietCardView BindingContext="{Binding BreakfastCardViewModel}" />
+
+            <Views:DietCardView BindingContext="{Binding LunchCardViewModel}" />
+
+            <Views:DietCardView BindingContext="{Binding DinnerCardViewModel}" />
+            
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

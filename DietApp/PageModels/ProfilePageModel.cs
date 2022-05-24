@@ -14,13 +14,6 @@ namespace DietApp.PageModels
 
         private IProfileService _profileService;
 
-        string _lastName;
-        public string LastName
-        {
-            get => _lastName;
-            set => SetProperty(ref _lastName, value);
-        }
-
         string _fullName;
         public string FullName
         {
@@ -32,7 +25,7 @@ namespace DietApp.PageModels
         public override async Task InitializeAsync(object navigationData = null)
         {
             _user = _profileService.GetUserInfo();
-            FullName = $"{_user.LastName} {_user.FirstName}";
+            FullName = _user.Name;
 
             await base.InitializeAsync(navigationData);
         }

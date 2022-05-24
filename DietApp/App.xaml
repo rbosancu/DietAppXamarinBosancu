@@ -7,5 +7,7 @@
         <Color x:Key="PrimaryColor">#2c9f45</Color>
         <Color x:Key="SecondaryColor">#c1d82f</Color>
         <Color x:Key="WarningColor">#ff9933</Color>
+        <Color x:Key="InfoColor">#0099e5</Color>
+        <Color x:Key="DangerColor">#fd5c63</Color>
     </Application.Resources>
 </Application>

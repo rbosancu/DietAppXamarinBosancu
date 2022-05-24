@@ -14,12 +14,12 @@ namespace DietApp.ViewModels.Labels
             set => SetProperty(ref _text, value);
         }
 
-        private string _textColor;
-        public string TextColor
-        {
-            get => _textColor;
-            set => SetProperty(ref _textColor, value);
-        }
+        //private string _textColor;
+        //public string TextColor
+        //{
+        //    get => _textColor;
+        //    set => SetProperty(ref _textColor, value);
+        //}
 
         private bool _isVisible;
         public bool IsVisible
@@ -30,7 +30,7 @@ namespace DietApp.ViewModels.Labels
 
         public ErrorLabelModel()
         {
-            TextColor = "Red";
+            //TextColor = "Red";
             IsVisible = false;
         }
 

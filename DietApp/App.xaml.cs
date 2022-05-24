@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DietApp.PageModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using DietApp.Services.Database;
 
 namespace DietApp
 {
@@ -15,15 +16,26 @@ namespace DietApp
             InitializeComponent();
         }
 
-        Task InitNavigation()
+        async Task InitRemoteData()
+        {
+            var databaseService = PageModelLocator.Resolve<IDatabaseService>();
+
+            await databaseService.SetBreakfastAliments();
+            await databaseService.SetLunchAliments();
+            await databaseService.SetDinnerAliments();
+        }
+
+        async Task InitNavigation()
         {
             var navService = PageModelLocator.Resolve<INavigationService>();
 
-            return navService.NavigateToAsync<OnboardingPageModel>();
+            await navService.NavigateToAsync<DashboardPageModel>();
         }
 
         protected override async void OnStart()
         {
+            await InitRemoteData();
+
             await InitNavigation();
         }
 

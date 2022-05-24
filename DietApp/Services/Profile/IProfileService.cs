@@ -10,7 +10,7 @@ namespace DietApp.Services.Profile
 {
     public interface IProfileService
     {
-        Task<bool> SetUserInfo(User user);
+        Task SetUserInfo(User user);
 
         User GetUserInfo();
     }

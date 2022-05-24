@@ -6,15 +6,21 @@ namespace DietApp.Models
 {
     public class User
     {
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
+        public string Gender { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
         public int Height { get; set; }
-        public float Weight { get; set; }
+        public double Weight { get; set; }
 
-        public User(string lastname, string firstname, int height, float weight)
+        public User()
         {
-            LastName = lastname;
-            FirstName = firstname;
+                
+        }
+        public User(string gender, string name, int age, int height, double weight)
+        {
+            Gender = gender;
+            Name = name;
+            Age = age;
             Height = height;
             Weight = weight;
         }

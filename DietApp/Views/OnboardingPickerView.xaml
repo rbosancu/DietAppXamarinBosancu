@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pickers="clr-namespace:DietApp.Views.Pickers"
+             xmlns:skViews="clr-namespace:DietApp.Views.SKViews"
+             x:Class="DietApp.Views.OnboardingPickerView">
+  <ContentView.Content>
+        <Grid RowDefinitions="40,2" WidthRequest="300" HorizontalOptions="CenterAndExpand" RowSpacing="0">
+            <pickers:OnboardingPicker 
+                Title="{Binding Title}"
+                FontFamily="Nunito-Regular"
+                TitleColor="{StaticResource SecondaryColor}" 
+                TextColor="White" 
+                ItemsSource="{Binding ItemsSource}" 
+                SelectedIndex="{Binding SelectedIndex}"/>
+            <BoxView x:Name="bvUnderline" Color="White" Opacity="0.5" HeightRequest="2" Grid.Row="1"/>
+            <skViews:UnderlineGradientView  x:Name="ugvUnderline" StartColor="Transparent" EndColor="White" Grid.Row="1" ScaleX="0"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -17,7 +17,7 @@ namespace DietApp.Services.Profile
             return _user;
         }
 
-        public Task<bool> SetUserInfo(User user)
+        public Task SetUserInfo(User user)
         {
             _user = user;
 

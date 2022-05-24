@@ -10,6 +10,7 @@
                                      PlaceholderColor="{Binding PlaceholderColor}"
                                      TextColor="{Binding TextColor}"
                                      Text="{Binding Text}"
+                                     FontFamily="Nunito-Regular"
                                      Keyboard="{Binding Keyboard}"
                                      x:Name="entryInput" 
                                      IsPassword="{Binding IsPassword}"/>

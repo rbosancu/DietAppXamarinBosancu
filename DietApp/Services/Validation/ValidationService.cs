@@ -1,5 +1,6 @@
 ﻿using DietApp.ViewModels.Entries;
 using DietApp.ViewModels.Labels;
+using DietApp.ViewModels.Pickers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,22 @@ namespace DietApp.Services.Validation
 {
     public class ValidationService : IValidationService
     {
-        public Task<bool> ValidateLastName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel)
+        public Task<bool> ValidateGender(OnboardingPickerViewModel pickerModel, ErrorLabelModel errorLabel)
+        {
+            if (pickerModel.SelectedIndex == -1)
+            {
+                errorLabel.Text = "Alegerea genului este obligatorie";
+                errorLabel.IsVisible = true;
+                return Task.FromResult(false);
+            }
+            else
+            {
+                errorLabel.IsVisible = false;
+                return Task.FromResult(true);
+            }
+        }
+
+        public Task<bool> ValidateName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel)
         {
             if (string.IsNullOrWhiteSpace(entryModel.Text) || entryModel.Text.Length < 3)
             {
@@ -24,11 +40,25 @@ namespace DietApp.Services.Validation
             }
         }
 
-        public Task<bool> ValidateFirstName(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel)
+        public Task<bool> ValidateAge(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel)
         {
-            if (string.IsNullOrWhiteSpace(entryModel.Text) || entryModel.Text.Length < 3)
+            bool isNumber = int.TryParse(entryModel.Text, out int number);
+
+            if (string.IsNullOrWhiteSpace(entryModel.Text))
             {
-                errorLabel.Text = "Prenumele trebuie să conțină minim 3 litere";
+                errorLabel.Text = "Câmpul vârstă este obligatoriu";
+                errorLabel.IsVisible = true;
+                return Task.FromResult(false);
+            }
+            else if (!isNumber)
+            {
+                errorLabel.Text = "Câmpul vârstă trebuie să fie un număr întreg";
+                errorLabel.IsVisible = true;
+                return Task.FromResult(false);
+            }
+            else if (number < 15)
+            {
+                errorLabel.Text = "Vârsta trebuie să fie mai mare de 15 ani";
                 errorLabel.IsVisible = true;
                 return Task.FromResult(false);
             }
@@ -70,7 +100,7 @@ namespace DietApp.Services.Validation
 
         public Task<bool> ValidateWeight(OnboardingEntryViewModel entryModel, ErrorLabelModel errorLabel)
         {
-            bool isNumber = float.TryParse(entryModel.Text, out float number);
+            bool isNumber = double.TryParse(entryModel.Text, out double number);
 
             if (string.IsNullOrWhiteSpace(entryModel.Text))
             {
