@@ -12,13 +12,15 @@ namespace DietApp.Services.Database
 {
     public class DatabaseService : IDatabaseService
     {
+        private DateTime _currentDay;
+
         private List<string> _genderOptions = new List<string>();
 
         public static string url = "https://autodb.work/alimente.json";
 
         private string _json = string.Empty;
 
-        private List<Aliment> _breakfastAliments = new List<Aliment>();
+        private List<Breakfast> _breakfasts = new List<Breakfast>();
         private List<Aliment> _lunchAliments = new List<Aliment>();
         private List<Aliment> _dinnerAliments = new List<Aliment>();
 
@@ -29,6 +31,8 @@ namespace DietApp.Services.Database
 
         public DatabaseService()
         {
+            _currentDay = DateTime.Now.Date;
+
             _genderOptions.Add("Barbat");
             _genderOptions.Add("Femeie");
         }
@@ -61,16 +65,36 @@ namespace DietApp.Services.Database
                 await GetRemoteData();
             }
 
+            int index = 0;
+
             JObject data = JObject.Parse(_json);
-            foreach (var item in data["mic_dejun"][0])
+            foreach (JToken _breakfast in data["mic_dejun"])
             {
-                Aliment aliment = new Aliment();
+                Breakfast breakfast = new Breakfast();
 
-                aliment.Nume = item["nume"].ToString();
-                aliment.Greutate = int.Parse(item["greutate"].ToString());
-                aliment.Calorii = double.Parse(item["calorii"].ToString());
+                if (index == 0)
+                {
+                    breakfast.Day = _currentDay.Date;
+                }
+                else
+                {
+                    breakfast.Day = _currentDay.AddDays(index);
+                }
 
-                _breakfastAliments.Add(aliment);
+                foreach(JToken _aliment in data["mic_dejun"][index])
+                {
+                    Aliment aliment = new Aliment();
+
+                    aliment.Nume = _aliment["nume"].ToString();
+                    aliment.Greutate = int.Parse(_aliment["greutate"].ToString());
+                    aliment.Calorii = double.Parse(_aliment["calorii"].ToString());
+
+                    breakfast.Foods.Add(aliment);
+                }
+
+                _breakfasts.Add(breakfast);
+
+                index++;
             }
         }
 
@@ -126,7 +150,20 @@ namespace DietApp.Services.Database
 
         public List<Aliment> GetBreakfasts()
         {
-            return _breakfastAliments;
+            DateTime day = DateTime.Now.Date;
+            day = day.AddDays(1);
+
+            List<Aliment> aliments = new List<Aliment>();
+
+            foreach (Breakfast breakfast in _breakfasts)
+            {
+                if (breakfast.Day == day)
+                {
+                    aliments = breakfast.Foods;
+                }
+            }
+
+            return aliments;
         }
 
         public List<Aliment> GetLunches()

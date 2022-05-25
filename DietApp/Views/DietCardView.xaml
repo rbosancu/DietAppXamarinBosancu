@@ -84,9 +84,22 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Margin="10, 0, 0, 0" Orientation="Horizontal">
-                                        <Label Text="{Binding Nume}" FontFamily="Nunito-Regular" TextColor="Black" FontSize="12"/>
-                                        <Label Text="{Binding Greutate, StringFormat='{0}gr.'}" FontFamily="Nunito-Bold" TextColor="{StaticResource InfoColor}" FontSize="12"/>
-                                        <Label Text="{Binding Calorii, StringFormat='{0}kcal'}" FontFamily="Nunito-Bold" TextColor="{StaticResource WarningColor}" FontSize="12"/>
+                                        <Label 
+                                            Text="{Binding Nume}" 
+                                            FontFamily="Nunito-Regular" 
+                                            TextColor="Black" 
+                                            FontSize="12"/>
+                                        <Label 
+                                            Text="{Binding Greutate, StringFormat='{0}gr.'}" 
+                                            FontFamily="Nunito-Bold" 
+                                            TextColor="{StaticResource InfoColor}" 
+                                            FontSize="12"/>
+                                        <Label
+                                            HorizontalOptions="End"
+                                            Text="{Binding Calorii, StringFormat='{0}kcal'}" 
+                                            FontFamily="Nunito-Bold" 
+                                            TextColor="{StaticResource WarningColor}" 
+                                            FontSize="12"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

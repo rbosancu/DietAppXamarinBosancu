@@ -1,6 +1,7 @@
 ﻿using DietApp.Models;
 using DietApp.PageModels.Base;
 using DietApp.Services.Database;
+using DietApp.Services.Diet;
 using DietApp.Services.Helper;
 using DietApp.Services.Profile;
 using DietApp.ViewModels.Cards;
@@ -22,9 +23,8 @@ namespace DietApp.PageModels
         private List<Aliment> _lunches;
         private List<Aliment> _dinners;
 
-        private IProfileService _profileService;
-        private IHelperService _helperService;
-        private IDatabaseService _databaseService;
+        private readonly IDietService _dietService;
+        private readonly IDatabaseService _databaseService;
 
         public int CurrentDay
         {
@@ -33,21 +33,20 @@ namespace DietApp.PageModels
         }
 
 
-        public DietPageModel(IProfileService profileService, IHelperService helperService, IDatabaseService databaseService)
+        public DietPageModel(IDietService dietService, IDatabaseService databaseService)
         {
-            _profileService = profileService;
-            _helperService = helperService;
+            _dietService = dietService;
             _databaseService = databaseService;
 
-            _dailyCalories = _helperService.DailyCalories(_profileService, _databaseService);
+            _dailyCalories = _dietService.DailyCalories();
 
-            _breakfasts = _helperService.BreakfastAliments(_databaseService.GetBreakfasts(), _helperService.BreakfastCalories(_dailyCalories));
-            _lunches = _helperService.RandomAliments(_databaseService.GetLunches(), _helperService.LunchCalories(_dailyCalories));
-            _dinners = _helperService.RandomAliments(_databaseService.GetDinners(), _helperService.DinnerCalories(_dailyCalories));
+            _breakfasts = _dietService.BreakfastAliments(_databaseService.GetBreakfasts(), _dietService.BreakfastCalories(_dailyCalories));
+            _lunches = _dietService.RandomAliments(_databaseService.GetLunches(), _dietService.LunchCalories(_dailyCalories));
+            _dinners = _dietService.RandomAliments(_databaseService.GetDinners(), _dietService.DinnerCalories(_dailyCalories));
 
-            BreakfastCardViewModel = new DietCardViewModel("Mic Dejun", "#2c9f45", "breakfast", _helperService.CalculateTotalCalories(_breakfasts), _helperService.BreakfastCalories(_dailyCalories), _breakfasts);
-            LunchCardViewModel = new DietCardViewModel("Prânz", "#0099e5", "lunch", _helperService.CalculateTotalCalories(_lunches), _helperService.LunchCalories(_dailyCalories), _lunches);
-            DinnerCardViewModel = new DietCardViewModel("Cină", "#fd5c63", "dinner", _helperService.CalculateTotalCalories(_dinners), _helperService.DinnerCalories(_dailyCalories), _dinners);
+            BreakfastCardViewModel = new DietCardViewModel("Mic Dejun", "#2c9f45", "breakfast", _dietService.CalculateTotalCalories(_breakfasts), _dietService.BreakfastCalories(_dailyCalories), _breakfasts);
+            LunchCardViewModel = new DietCardViewModel("Prânz", "#0099e5", "lunch", _dietService.CalculateTotalCalories(_lunches), _dietService.LunchCalories(_dailyCalories), _lunches);
+            DinnerCardViewModel = new DietCardViewModel("Cină", "#fd5c63", "dinner", _dietService.CalculateTotalCalories(_dinners), _dietService.DinnerCalories(_dailyCalories), _dinners);
 
             CurrentDay = 2;
         }

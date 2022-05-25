@@ -1,5 +1,6 @@
 ﻿using DietApp.Pages;
 using DietApp.Services.Database;
+using DietApp.Services.Diet;
 using DietApp.Services.Helper;
 using DietApp.Services.Navigation;
 using DietApp.Services.Profile;
@@ -35,7 +36,7 @@ namespace DietApp.PageModels.Base
             _container.Register<IProfileService, MockProfileService>();
             _container.Register<IValidationService, ValidationService>();
             _container.Register<IDatabaseService, DatabaseService>();
-            _container.Register<IHelperService, HelperService>();
+            _container.Register<IDietService, DietService>();
         }
 
         public static T Resolve<T>() where T : class
