@@ -5,7 +5,7 @@ using System.Windows.Input;
 using DietApp.PageModels.Base;
 using Xamarin.Forms;
 
-namespace TimeTrackerT.ViewModels.Buttons
+namespace DietApp.ViewModels.Buttons
 {
     public class ButtonModel : ExtendedBindableObject
     {

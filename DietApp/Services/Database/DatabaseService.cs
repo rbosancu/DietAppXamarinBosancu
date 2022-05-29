@@ -1,4 +1,6 @@
 ﻿using DietApp.Models;
+using DietApp.Services.Diet;
+using DietApp.Services.Profile;
 using Newtonsoft.Json.Linq;
 using SQLite;
 using System;
@@ -7,13 +9,12 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DietApp.Services.Database
 {
     public class DatabaseService : IDatabaseService
     {
-        private DateTime _currentDay;
-
         private List<string> _genderOptions = new List<string>();
 
         public static string url = "https://autodb.work/alimente.json";
@@ -21,20 +22,22 @@ namespace DietApp.Services.Database
         private string _json = string.Empty;
 
         private List<Breakfast> _breakfasts = new List<Breakfast>();
-        private List<Aliment> _lunchAliments = new List<Aliment>();
-        private List<Aliment> _dinnerAliments = new List<Aliment>();
-
-        public void InitializeDatabase()
-        {
-            // TODO: Initialize database
-        }
+        private List<Lunch> _lunches = new List<Lunch>();
+        private List<Dinner> _dinners = new List<Dinner>();
 
         public DatabaseService()
         {
-            _currentDay = DateTime.Now.Date;
-
             _genderOptions.Add("Barbat");
             _genderOptions.Add("Femeie");
+        }
+
+        public async Task InitRemoteData()
+        {
+            await SetBreakfastAliments();
+            await SetLunchAliments();
+            await SetDinnerAliments();
+
+            await Task.FromResult(true);
         }
 
         public async Task GetRemoteData()
@@ -74,11 +77,11 @@ namespace DietApp.Services.Database
 
                 if (index == 0)
                 {
-                    breakfast.Day = _currentDay.Date;
+                    breakfast.Day = 1;
                 }
                 else
                 {
-                    breakfast.Day = _currentDay.AddDays(index);
+                    breakfast.Day = index + 1;
                 }
 
                 foreach(JToken _aliment in data["mic_dejun"][index])
@@ -105,18 +108,47 @@ namespace DietApp.Services.Database
                 await GetRemoteData();
             }
 
+            int index = 0;
+
             JObject data = JObject.Parse(_json);
-            foreach (var item in data["pranz"])
+            foreach (var _day in data["pranz"])
             {
-                Aliment aliment = new Aliment();
+                Lunch lunch = new Lunch();
 
-                aliment.Nume = item["nume"].ToString();
-                aliment.Greutate = int.Parse(item["greutate"].ToString());
-                aliment.Calorii = double.Parse(item["calorii"].ToString());
-                aliment.Carbohidrati = int.Parse(item["carbohidrati"].ToString());
-                aliment.Proteine = int.Parse(item["proteine"].ToString());
+                if (index == 0)
+                {
+                    lunch.Day = 1;
+                }
+                else
+                {
+                    lunch.Day = index + 1;
+                }
 
-                _lunchAliments.Add(aliment);
+
+                foreach (var _recipe in _day)
+                {
+                    Recipe recipe = new Recipe();
+
+                    recipe.Name = (string)_recipe["nume"];
+
+                    foreach (var _aliment in _recipe["alimente"])
+                    {
+                        Aliment aliment = new Aliment();
+
+                        aliment.Nume = _aliment["nume"].ToString();
+                        aliment.Greutate = int.Parse(_aliment["greutate"].ToString());
+                        aliment.Calorii = double.Parse(_aliment["calorii"].ToString());
+
+                        recipe.Ingredients.Add(aliment);
+
+                    }
+
+                    lunch.Foods.Add(recipe);
+                }
+
+                _lunches.Add(lunch);
+
+                ++index;
             }
         }
 
@@ -127,18 +159,48 @@ namespace DietApp.Services.Database
                 await GetRemoteData();
             }
 
+            int index = 0;
+
             JObject data = JObject.Parse(_json);
-            foreach (var item in data["cina"])
+            foreach (var _day in data["cina"])
             {
-                Aliment aliment = new Aliment();
+                
+                Dinner dinner = new Dinner();
 
-                aliment.Nume = item["nume"].ToString();
-                aliment.Greutate = int.Parse(item["greutate"].ToString());
-                aliment.Calorii = double.Parse(item["calorii"].ToString());
-                aliment.Carbohidrati = int.Parse(item["carbohidrati"].ToString());
-                aliment.Proteine = int.Parse(item["proteine"].ToString());
+                if (index == 0)
+                {
+                    dinner.Day = 1;
+                }
+                else
+                {
+                    dinner.Day = index + 1;
+                }
 
-                _dinnerAliments.Add(aliment);
+
+                foreach (var _recipe in _day)
+                {
+                    Recipe recipe = new Recipe();
+
+                    recipe.Name = (string)_recipe["nume"];
+
+                    foreach (var _aliment in _recipe["alimente"])
+                    {
+                        Aliment aliment = new Aliment();
+
+                        aliment.Nume = _aliment["nume"].ToString();
+                        aliment.Greutate = int.Parse(_aliment["greutate"].ToString());
+                        aliment.Calorii = double.Parse(_aliment["calorii"].ToString());
+
+                        recipe.Ingredients.Add(aliment);
+
+                    }
+
+                    dinner.Foods.Add(recipe);
+                }
+
+                _dinners.Add(dinner);
+
+                ++index;
             }
         }
 
@@ -150,14 +212,11 @@ namespace DietApp.Services.Database
 
         public List<Aliment> GetBreakfasts()
         {
-            DateTime day = DateTime.Now.Date;
-            day = day.AddDays(1);
-
             List<Aliment> aliments = new List<Aliment>();
 
             foreach (Breakfast breakfast in _breakfasts)
             {
-                if (breakfast.Day == day)
+                if (breakfast.Day == GetCurrentDietDay())
                 {
                     aliments = breakfast.Foods;
                 }
@@ -166,22 +225,87 @@ namespace DietApp.Services.Database
             return aliments;
         }
 
-        public List<Aliment> GetLunches()
+        public List<Recipe> GetLunches()
         {
-            return _lunchAliments;
+            List<Recipe> recipes = new List<Recipe>();
+
+            foreach (Lunch lunch in _lunches)
+            {
+                if (lunch.Day == GetCurrentDietDay())
+                {
+                    foreach (Recipe recipe in lunch.Foods)
+                    {
+                        recipes.Add(recipe);
+                    }
+                }
+            }
+
+            return recipes;
         }
 
-        public List<Aliment> GetDinners()
+        public List<Recipe> GetDinners()
         {
-            return _dinnerAliments;
+            List<Recipe> recipes = new List<Recipe>();
+
+            foreach (Dinner dinner in _dinners)
+            {
+                if (dinner.Day == GetCurrentDietDay())
+                {
+                    foreach (Recipe recipe in dinner.Foods)
+                    {
+                        recipes.Add(recipe);
+                    }
+                }
+            }
+
+            return recipes;
         }
 
-        //string _databaseName = "dietApp.db3";
-        //private SQLiteConnection _db;
-        //public void initializeDatabase()
-        //{
-        //    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), _databaseName);
-        //    _db = new SQLiteConnection(dbPath);
-        //}
+        public async Task SetDietStartDate()
+        {
+            Application.Current.Properties["DietStartDate"] = DateTime.Now;
+
+            await Task.FromResult(true);
+        }
+
+        public DateTime GetDietStartDate()
+        {
+            if (Application.Current.Properties.ContainsKey("DietStartDate"))
+            {
+                var startDate = (DateTime)Application.Current.Properties["DietStartDate"];
+
+                return startDate;
+            }
+
+            return DateTime.Now;
+        }
+
+        public bool SetCurrentDietDay()
+        {
+            DateTime startDay = GetDietStartDate();
+            DateTime currentDay = DateTime.Now;
+            //currentDay = currentDay.AddDays(14);
+
+            if (startDay.Date == currentDay.Date)
+            {
+                Application.Current.Properties["DietCurrentDay"] = 1;
+                return true;
+            }
+
+            if ((currentDay - startDay).TotalDays <= 16)
+            {
+                Application.Current.Properties["DietCurrentDay"] = (int)(currentDay - startDay).TotalDays + 1;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetCurrentDietDay()
+        {
+            return (int)Application.Current.Properties["DietCurrentDay"];
+        }
     }
 }

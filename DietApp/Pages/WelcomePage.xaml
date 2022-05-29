@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skViews="clr-namespace:DietApp.Views.SKViews"
+             xmlns:buttons="clr-namespace:DietApp.Views.Buttons"
              xmlns:labels="clr-namespace:DietApp.Views.Labels"
              NavigationPage.HasNavigationBar="False"
              x:Class="DietApp.Pages.WelcomePage">
@@ -25,14 +26,13 @@
                        Margin="30, 50, 30, 0"/>
 
                 <StackLayout>
-                    <Button Text="{Binding ButtonText}" 
-                            Command="{Binding NextStepCommand}"
-                            WidthRequest="200" 
-                            HorizontalOptions="Center"
-                            BackgroundColor="White"
-                            TextColor="#2c9f45"
-                            Margin="0, 50, 0, 0"
-                             />
+                    <buttons:BindableButton BindingContext="{Binding NextButton}" 
+                                            WidthRequest="200" 
+                                            HorizontalOptions="Center"
+                                            BackgroundColor="White"
+                                            TextColor="#2c9f45"
+                                            Margin="0, 50, 0, 0"/>
+                
                 </StackLayout>
             </StackLayout>
 

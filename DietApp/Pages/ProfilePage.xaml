@@ -1,25 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:DietApp.Views"
+             xmlns:buttons="clr-namespace:DietApp.Views.Buttons"
              xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              x:Class="DietApp.Pages.ProfilePage">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image WidthRequest="35" Aspect="AspectFit" HorizontalOptions="StartAndExpand" Source="vegetables"/>
-            <labels:CustomLabel Text="{Binding FullName}" 
+            <Image WidthRequest="35" Aspect="AspectFit" HorizontalOptions="Start" Source="vegetables"/>
+            <labels:CustomLabel Text="{Binding Title}" 
                                 HorizontalOptions="StartAndExpand" 
                                 FontSize="18" 
                                 VerticalTextAlignment="Center"
-                                Margin="-20, 0, 0, 0"/>
+                                Margin="0, 0, 0, 0"/>
         </StackLayout>
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding FullName}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Frame Margin="15" Padding="15">
+                <StackLayout>
+                    
+                    <Image Margin="0,30,0,30" WidthRequest="100" Source="user" Aspect="AspectFit"/>
+                    <views:DividerView />
+
+                    <labels:CustomLabel Text="{Binding User.Name, StringFormat='Nume: {0}'}" TextColor="gray" HorizontalOptions="StartAndExpand" FontSize="20" />
+                    <views:DividerView />
+                    <labels:CustomLabel Text="{Binding User.Gender, StringFormat='Sex: {0}'}" TextColor="gray" HorizontalOptions="StartAndExpand" FontSize="20" />
+                    <views:DividerView />
+                    <labels:CustomLabel Text="{Binding User.Age, StringFormat='Vârstă: {0} ani'}" TextColor="gray" HorizontalOptions="StartAndExpand" FontSize="20" />
+                    <views:DividerView />
+                    <labels:CustomLabel Text="{Binding Height, StringFormat='Înălțime: {0:F2} m.'}" TextColor="gray" HorizontalOptions="StartAndExpand" FontSize="20" />
+                    <views:DividerView />
+                    <labels:CustomLabel Text="{Binding User.Weight, StringFormat='Greutate: {0} Kg.'}" TextColor="gray" HorizontalOptions="StartAndExpand" FontSize="20" />
+                    <views:DividerView />
+                    
+                    <StackLayout>
+                        <labels:CustomLabel IsVisible="{Binding ErrorIsVisible}" Text="Au trecut 15 zile de la inceperea dietei, dacă dorești o nouă dietă apasă butonul de resetare de mai jos." TextColor="{StaticResource DangerColor}" HorizontalOptions="StartAndExpand" FontSize="20" />
+                        
+                        <buttons:BindableButton BindingContext="{Binding ResetButton}" WidthRequest="200" 
+                                            HorizontalOptions="Center"
+                                            BackgroundColor="#2c9f45"
+                                            TextColor="White"
+                                            Margin="0, 50, 0, 0"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

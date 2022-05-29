@@ -2,15 +2,15 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:labels="clr-namespace:DietApp.Views.Labels"
-             x:Class="DietApp.Views.DietCardView">
-  <ContentView.Content>
-        <Frame Margin="15, 10, 15, 0">
+             x:Class="DietApp.Views.DietCardRecipeView">
+    <ContentView.Content>
+        <Frame Margin="15, 5, 15, 5">
             <Grid RowSpacing="4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20" />
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="2" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
@@ -66,46 +66,59 @@
                         FontFamily="Nunito-Regular"
                         TextColor="Gray"/>
 
-                <StackLayout 
+                <ListView
+                        HeightRequest="180"
                         Grid.ColumnSpan="4"
                         Grid.Row="3" 
-                        HeightRequest="110"
-                        VerticalOptions="CenterAndExpand">
+                        Margin="0, 20, 0, 0"
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="StartAndExpand"
+                        RowHeight = "20"
+                        SeparatorVisibility="None"
+                        ItemsSource="{Binding ListOfRecipes}" 
+                        IsGroupingEnabled="true">
+                    <ListView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Margin="15, 0, 0, 0" Orientation="Horizontal">
+                                    <Label 
+                                            Text="{Binding Name, StringFormat='{0}:'}" 
+                                            FontFamily="Nunito-Bold" 
+                                            TextColor="Black" 
+                                            FontSize="12"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.GroupHeaderTemplate>
 
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" Margin="35, 0, 0, 0">
 
-                    <ListView
-                            Margin="0, 30, 0, 0"
-                            ItemsSource="{Binding Breakfasts}"
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            RowHeight = "20"
-                            >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Margin="10, 0, 0, 0" Orientation="Horizontal">
-                                        <Label 
+                                    <Label 
                                             Text="{Binding Nume}" 
                                             FontFamily="Nunito-Regular" 
                                             TextColor="Black" 
                                             FontSize="12"/>
-                                        <Label 
+
+                                    <Label 
                                             Text="{Binding Greutate, StringFormat='{0}gr.'}" 
                                             FontFamily="Nunito-Bold" 
                                             TextColor="{StaticResource InfoColor}" 
                                             FontSize="12"/>
-                                        <Label
+
+                                    <Label
                                             HorizontalOptions="End"
                                             Text="{Binding Calorii, StringFormat='{0}kcal'}" 
                                             FontFamily="Nunito-Bold" 
                                             TextColor="{StaticResource WarningColor}" 
                                             FontSize="12"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </Frame>
     </ContentView.Content>

@@ -33,7 +33,7 @@ namespace DietApp.PageModels.Base
 
             // Register Services
             _container.Register<INavigationService, NavigationService>();
-            _container.Register<IProfileService, MockProfileService>();
+            _container.Register<IProfileService, ProfileService>();
             _container.Register<IValidationService, ValidationService>();
             _container.Register<IDatabaseService, DatabaseService>();
             _container.Register<IDietService, DietService>();

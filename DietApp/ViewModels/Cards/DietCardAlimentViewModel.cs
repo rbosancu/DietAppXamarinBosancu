@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DietApp.ViewModels.Cards
 {
-    public class DietCardViewModel : ExtendedBindableObject
+    public class DietCardAlimentViewModel : ExtendedBindableObject
     {
         private string _title;
         public string Title
@@ -50,7 +50,7 @@ namespace DietApp.ViewModels.Cards
             set => SetProperty(ref _breakfasts, value);
         }
 
-        public DietCardViewModel(string title, string textColor, string source, int totalBreakfastCalories, int recommendedCalories, List<Aliment> breakfasts)
+        public DietCardAlimentViewModel(string title, string textColor, string source, int totalBreakfastCalories, int recommendedCalories, List<Aliment> breakfasts)
         {
             Title = title;
             TextColor = textColor;

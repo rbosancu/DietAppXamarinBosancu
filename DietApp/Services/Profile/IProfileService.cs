@@ -10,8 +10,11 @@ namespace DietApp.Services.Profile
 {
     public interface IProfileService
     {
+        bool CheckExistingUser();
         Task SetUserInfo(User user);
 
         User GetUserInfo();
+
+        Task ClearUserInfo();
     }
 }

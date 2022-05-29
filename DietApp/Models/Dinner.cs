@@ -4,10 +4,10 @@ using System.Text;
 
 namespace DietApp.Models
 {
-    public class Breakfast
+    public class Dinner
     {
         public int Day;
 
-        public List<Aliment> Foods = new List<Aliment>();
+        public List<Recipe> Foods = new List<Recipe>();
     }
 }

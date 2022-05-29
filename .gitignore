@@ -2,3 +2,6 @@
 DietApp.Android/bin
 DietApp/obj
 DietApp.Android/obj
+DietApp/Properties
+DietApp.iOS/bin
+DietApp.iOS/obj

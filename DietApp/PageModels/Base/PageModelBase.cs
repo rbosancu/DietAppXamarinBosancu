@@ -24,7 +24,7 @@ namespace DietApp.PageModels.Base
         }
 
         /// <summary>
-        /// Performs Page Model initialisation Asynchronously
+        /// Performs Page Model initialization Asynchronously
         /// </summary>
         /// <param name="navigationData"></param>
         /// <returns></returns>

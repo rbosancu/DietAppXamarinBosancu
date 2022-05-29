@@ -6,23 +6,25 @@ using System.Windows.Input;
 using DietApp.Models;
 using DietApp.PageModels.Base;
 using DietApp.Services.Database;
+using DietApp.Services.Diet;
 using DietApp.Services.Navigation;
 using DietApp.Services.Profile;
 using DietApp.Services.Validation;
 using DietApp.ViewModels.Entries;
 using DietApp.ViewModels.Labels;
 using DietApp.ViewModels.Pickers;
-using TimeTrackerT.ViewModels.Buttons;
+using DietApp.ViewModels.Buttons;
 using Xamarin.Forms;
 
 namespace DietApp.PageModels
 {
     public class OnboardingPageModel : PageModelBase
     {
-        private INavigationService _navigationService;
-        private IProfileService _profileService;
-        private IValidationService _validationService;
-        private IDatabaseService _databaseService;
+        private readonly INavigationService _navigationService;
+        private readonly IProfileService _profileService;
+        private readonly IValidationService _validationService;
+        private readonly IDatabaseService _databaseService;
+        private readonly IDietService _dietService;
         private List<string> _genderOptions;
 
         public OnboardingPickerViewModel GenderPickerViewModel { get; set; }
@@ -41,12 +43,13 @@ namespace DietApp.PageModels
         public ButtonModel StartButton { get; set; }
 
 
-        public OnboardingPageModel(INavigationService navigationService, IProfileService profileService, IValidationService validationService, IDatabaseService databaseService)
+        public OnboardingPageModel(INavigationService navigationService, IProfileService profileService, IValidationService validationService, IDatabaseService databaseService, IDietService dietService)
         {
             _navigationService = navigationService;
             _profileService = profileService;
             _validationService = validationService;
             _databaseService = databaseService;
+            _dietService = dietService;
 
             _genderOptions = _databaseService.GetGenderOptions();
 
@@ -78,7 +81,10 @@ namespace DietApp.PageModels
 
             if (checkGender && checkName && checkAge && checkHeight && checkWeight)
             {
-                await _profileService.SetUserInfo(new User(convertGender(GenderPickerViewModel.SelectedIndex), NameEntryViewModel.Text, int.Parse(AgeEntryViewModel.Text), int.Parse(HeightEntryViewModel.Text), float.Parse(WeightEntryViewModel.Text)));
+                User user = new User(convertGender(GenderPickerViewModel.SelectedIndex), NameEntryViewModel.Text, int.Parse(AgeEntryViewModel.Text), int.Parse(HeightEntryViewModel.Text), double.Parse(WeightEntryViewModel.Text));
+                await _profileService.SetUserInfo(user);
+                await _databaseService.SetDietStartDate();
+                _databaseService.SetCurrentDietDay();
                 await _navigationService.NavigateToAsync<DashboardPageModel>();
             }
         }

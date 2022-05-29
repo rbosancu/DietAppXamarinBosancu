@@ -7,7 +7,7 @@
 
     
     <TabbedPage.Children >
-        <NavigationPage Title="Dieta">
+        <NavigationPage Title="Dietă">
             <x:Arguments>
                 <pages:DietPage BindingContext="{Binding DietPageModel}" />
             </x:Arguments>
@@ -17,7 +17,7 @@
                 <pages:ProfilePage BindingContext="{Binding ProfilePageModel}" />
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Informatii" >
+        <NavigationPage Title="Informații" >
             <x:Arguments>
                 <pages:SummaryPage BindingContext="{Binding SummaryPageModel}" />
             </x:Arguments>

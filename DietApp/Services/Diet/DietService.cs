@@ -4,23 +4,22 @@ using DietApp.Services.Profile;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DietApp.Services.Diet
 {
     public class DietService : IDietService
     {
-        private DateTime _currentDay;
-
-        private readonly IProfileService _profileService;
-        private readonly IDatabaseService _databaseService;
+        private IProfileService _profileService;
+        private IDatabaseService _databaseService;
 
         public DietService(IProfileService profileService, IDatabaseService databaseService)
         {
             _profileService = profileService;
             _databaseService = databaseService;
-
-            _currentDay = DateTime.Now;
         }
+
         public List<Aliment> RandomAliments(List<Aliment> aliments, int calories)
         {
             int currentCalories = 0;
@@ -51,8 +50,6 @@ namespace DietApp.Services.Diet
 
         public List<Aliment> BreakfastAliments(List<Aliment> aliments, int calories)
         {
-            _currentDay.AddDays(1);
-
             int currentCalories = 0;
             List<Aliment> localAliments = new List<Aliment>();
 
@@ -96,13 +93,157 @@ namespace DietApp.Services.Diet
             return localAliments;
         }
 
-        public int CalculateTotalCalories(List<Aliment> aliments)
+        public List<Recipe> LunchAliments(List<Recipe> recipes, int calories)
+        {
+            int currentCalories = 0;
+            List<Recipe> localRecipes = new List<Recipe>();
+            List<Aliment> localAliments = new List<Aliment>();
+
+            foreach (Recipe recipe in recipes)
+            {
+                localRecipes.Add(recipe);
+
+                foreach (Aliment aliment in recipe.Ingredients)
+                {
+                    localAliments.Add(aliment);
+                    currentCalories += (int)Math.Floor(aliment.Calorii);
+                }
+            }
+
+            if (currentCalories > calories)
+            {
+                while (AlimentsTotalCalories(localAliments) > calories)
+                {
+                    foreach (Recipe _recipe in localRecipes)
+                    {
+                        foreach (Aliment aliment in _recipe.Ingredients)
+                        {
+                            double calorie = aliment.Calorii / aliment.Greutate;
+
+                            aliment.Calorii -= calorie;
+                            aliment.Greutate -= 1;
+                        }
+                    }
+                }
+            }
+            else if (currentCalories < calories)
+            {
+                while (AlimentsTotalCalories(localAliments) < calories)
+                {
+                    foreach (Recipe _recipe in localRecipes)
+                    {
+                        foreach (Aliment aliment in _recipe.Ingredients)
+                        {
+                            double calorie = aliment.Calorii / aliment.Greutate;
+
+                            aliment.Calorii += calorie;
+                            aliment.Greutate += 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return localRecipes;
+            }
+
+            return localRecipes;
+        }
+
+        public List<Recipe> DinnerAliments(List<Recipe> recipes, int calories)
+        {
+            int currentCalories = 0;
+            List<Recipe> localRecipes = new List<Recipe>();
+            List<Aliment> localAliments = new List<Aliment>();
+
+            foreach (Recipe recipe in recipes)
+            {
+                localRecipes.Add(recipe);
+
+                foreach (Aliment aliment in recipe.Ingredients)
+                {
+                    localAliments.Add(aliment);
+                    currentCalories += (int)Math.Floor(aliment.Calorii);
+                }
+            }
+
+            if (currentCalories > calories)
+            {
+                while (AlimentsTotalCalories(localAliments) > calories)
+                {
+                    foreach (Recipe _recipe in localRecipes)
+                    {
+                        foreach (Aliment aliment in _recipe.Ingredients)
+                        {
+                            double calorie = aliment.Calorii / aliment.Greutate;
+
+                            aliment.Calorii -= calorie;
+                            aliment.Greutate -= 1;
+                        }
+                    }
+                }
+            }
+            else if (currentCalories < calories)
+            {
+                while (AlimentsTotalCalories(localAliments) < calories)
+                {
+                    foreach (Recipe _recipe in localRecipes)
+                    {
+                        foreach (Aliment aliment in _recipe.Ingredients)
+                        {
+                            double calorie = aliment.Calorii / aliment.Greutate;
+
+                            aliment.Calorii += calorie;
+                            aliment.Greutate += 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return localRecipes;
+            }
+
+            return localRecipes;
+        }
+
+        public int CalculateTotalBreakfastCalories(List<Aliment> aliments)
         {
             int totalCalories = 0;
 
             foreach (Aliment aliment in aliments)
             {
                 totalCalories += (int)Math.Floor(aliment.Calorii);
+            }
+
+            return totalCalories;
+        }
+
+        public int CalculateTotalLunchCalories(List<Recipe> recipes)
+        {
+            int totalCalories = 0;
+
+            foreach (Recipe recipe in recipes)
+            {
+                foreach (Aliment aliment in recipe.Ingredients)
+                {
+                    totalCalories += (int)Math.Floor(aliment.Calorii);
+                }
+            }
+
+            return totalCalories;
+        }
+
+        public int CalculateTotalDinnerCalories(List<Recipe> recipes)
+        {
+            int totalCalories = 0;
+
+            foreach (Recipe recipe in recipes)
+            {
+                foreach (Aliment aliment in recipe.Ingredients)
+                {
+                    totalCalories += (int)Math.Floor(aliment.Calorii);
+                }
             }
 
             return totalCalories;

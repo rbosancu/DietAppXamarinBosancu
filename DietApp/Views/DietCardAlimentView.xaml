@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             x:Class="DietApp.Views.DietCardAlimentView">
+  <ContentView.Content>
+        <Frame Margin="15, 10, 15, 5">
+            <Grid RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="2" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image WidthRequest="40" Source="{Binding Source}" Aspect="AspectFit" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.RowSpan="2"/>
+
+                <labels:CustomLabel
+                        Grid.Column="1"
+                        HorizontalOptions="Start"
+                        Text="{Binding Title}"                   
+                        TextColor="{Binding TextColor}" />
+
+                <labels:CustomLabel
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HorizontalOptions="Start"
+                        Text="{Binding RecommendedCalories, StringFormat='Recomandat {0} kcal'}"
+                        FontFamily="Nunito-Regular"
+                        FontSize="12"
+                        TextColor="Gray" />
+
+                <labels:CustomLabel
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Grid.Row="0"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="End"
+                        Text="{Binding TotalBreakfastCalories, StringFormat='Calorii: {0}kcal'}"
+                        FontFamily="Nunito-Bold"
+                        FontSize="12"
+                        TextColor="{StaticResource WarningColor}" />
+
+                <BoxView 
+                        Grid.Row="2"
+                        Grid.ColumnSpan="4" 
+                        VerticalOptions="Start" 
+                        HorizontalOptions="StartAndExpand"
+                        WidthRequest="500"
+                        HeightRequest="0.5"
+                        Opacity="0.3"          
+                        Color="Gray"></BoxView>
+
+
+                <labels:CustomLabel
+                        Grid.ColumnSpan="3"
+                        Grid.Row="3"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Text="Recomandare:"
+                        FontFamily="Nunito-Regular"
+                        TextColor="Gray"/>
+
+                <StackLayout 
+                        Grid.ColumnSpan="4"
+                        Grid.Row="3" 
+                        VerticalOptions="CenterAndExpand">
+                    
+                    <ListView
+                            Margin="0, 20, 0, 0"
+                            ItemsSource="{Binding Breakfasts}"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="StartAndExpand"
+                            RowHeight = "20"
+                            >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Margin="10, 0, 0, 0" Orientation="Horizontal">
+                                        <Label 
+                                            Text="{Binding Nume}" 
+                                            FontFamily="Nunito-Regular" 
+                                            TextColor="Black" 
+                                            FontSize="12"/>
+                                        <Label 
+                                            Text="{Binding Greutate, StringFormat='{0}gr.'}" 
+                                            FontFamily="Nunito-Bold" 
+                                            TextColor="{StaticResource InfoColor}" 
+                                            FontSize="12"/>
+                                        <Label
+                                            HorizontalOptions="End"
+                                            Text="{Binding Calorii, StringFormat='{0}kcal'}" 
+                                            FontFamily="Nunito-Bold" 
+                                            TextColor="{StaticResource WarningColor}" 
+                                            FontSize="12"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

@@ -9,5 +9,7 @@
         <Color x:Key="WarningColor">#ff9933</Color>
         <Color x:Key="InfoColor">#0099e5</Color>
         <Color x:Key="DangerColor">#fd5c63</Color>
+        <Color x:Key="PageBackgroundColor">#f3f4f7</Color>
+        
     </Application.Resources>
 </Application>

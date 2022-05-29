@@ -1,12 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:labels="clr-namespace:DietApp.Views.Labels"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              x:Class="DietApp.Pages.SummaryPage">
+
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <labels:CustomLabel Text="Aplicație Disertație" 
+                                HorizontalOptions="CenterAndExpand" 
+                                FontSize="18"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Pagina Informatii"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Frame Margin="15">
+                <StackLayout HorizontalOptions="CenterAndExpand" Padding="20">
+                    <labels:CustomLabel Text="Creată de Bosancu Robert Vasile pentru lucrarea de disertație la Universitatea Vasile Alecsandri Bacau."
+                                    TextColor="Black"
+                                    HorizontalOptions="CenterAndExpand" 
+                                    FontSize="18"/>
+                </StackLayout>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

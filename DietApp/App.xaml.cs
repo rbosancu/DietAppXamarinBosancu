@@ -6,6 +6,9 @@ using DietApp.PageModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using DietApp.Services.Database;
+using DietApp.Services.Profile;
+using DietApp.Services.Diet;
+using Xamarin.Essentials;
 
 namespace DietApp
 {
@@ -16,26 +19,34 @@ namespace DietApp
             InitializeComponent();
         }
 
-        async Task InitRemoteData()
-        {
-            var databaseService = PageModelLocator.Resolve<IDatabaseService>();
-
-            await databaseService.SetBreakfastAliments();
-            await databaseService.SetLunchAliments();
-            await databaseService.SetDinnerAliments();
-        }
-
         async Task InitNavigation()
         {
             var navService = PageModelLocator.Resolve<INavigationService>();
+            var profileService = PageModelLocator.Resolve<IProfileService>();
+            var databaseService = PageModelLocator.Resolve<IDatabaseService>();
 
-            await navService.NavigateToAsync<DashboardPageModel>();
+            if (profileService.CheckExistingUser())
+            {
+                databaseService.SetCurrentDietDay();
+
+                if (databaseService.GetCurrentDietDay() > 15)
+                {
+                    await navService.NavigateToAsync<ProfilePageModel>(true, true);
+                }
+                else
+                {
+                    await navService.NavigateToAsync<DashboardPageModel>();
+                }
+            }
+            else
+            {
+                await navService.NavigateToAsync<WelcomePageModel>();
+            }
+
         }
 
         protected override async void OnStart()
         {
-            await InitRemoteData();
-
             await InitNavigation();
         }
 

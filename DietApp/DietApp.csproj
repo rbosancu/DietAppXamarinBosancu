@@ -57,6 +57,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\DietCardAlimentView.xaml.cs">
+      <DependentUpon>DietCardAlimentView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Pages\DashboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -78,7 +84,13 @@
     <EmbeddedResource Update="Views\Buttons\BindableButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\DietCardView.xaml">
+    <EmbeddedResource Update="Views\DietCardRecipeView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DietCardAlimentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\DividerView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Labels\CustomLabel.xaml">

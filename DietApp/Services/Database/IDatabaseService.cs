@@ -8,15 +8,20 @@ namespace DietApp.Services.Database
 {
     public interface IDatabaseService
     {
-        void InitializeDatabase();
+        Task InitRemoteData();
         Task GetRemoteData();
         Task SetBreakfastAliments();
         Task SetLunchAliments();
         Task SetDinnerAliments();
 
+        Task SetDietStartDate();
+        DateTime GetDietStartDate();
+        bool SetCurrentDietDay();
+        int GetCurrentDietDay();
+
         List<Aliment> GetBreakfasts();
-        List<Aliment> GetLunches();
-        List<Aliment> GetDinners();
+        List<Recipe> GetLunches();
+        List<Recipe> GetDinners();
 
         List<string> GetGenderOptions();
     }

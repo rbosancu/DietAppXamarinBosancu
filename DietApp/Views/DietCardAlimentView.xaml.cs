@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace DietApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DietCardView : ContentView
+    public partial class DietCardAlimentView : ContentView
     {
-        public DietCardView()
+        public DietCardAlimentView()
         {
             InitializeComponent();
         }

@@ -3,29 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:labels="clr-namespace:DietApp.Views.Labels"
              xmlns:Views="clr-namespace:DietApp.Views"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              x:Class="DietApp.Pages.DietPage">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal">
-            <Image Source="vegetables" WidthRequest="35" Aspect="AspectFit" HorizontalOptions="StartAndExpand" />
+            <Image Source="vegetables" WidthRequest="35" Aspect="AspectFit" HorizontalOptions="Start" />
             <labels:CustomLabel Text="{Binding CurrentDay, StringFormat='Ziua {0} din 15'}" 
-                                HorizontalOptions="StartAndExpand" 
+                                HorizontalOptions="CenterAndExpand" 
                                 FontSize="18" 
                                 VerticalTextAlignment="Center"
-                                Margin="-20, 0, 0, 0"/>
+                                Margin="-50, 0, 0, 0"/>
         </StackLayout>
     </NavigationPage.TitleView>
     
         <ContentPage.Content>
-        <StackLayout>
+        <ScrollView>
+            <StackLayout>
 
-            <Views:DietCardView BindingContext="{Binding BreakfastCardViewModel}" />
+                <Views:DietCardAlimentView BindingContext="{Binding BreakfastCardViewModel}" />
 
-            <Views:DietCardView BindingContext="{Binding LunchCardViewModel}" />
+                <Views:DietCardRecipeView BindingContext="{Binding LunchCardViewModel}" />
 
-            <Views:DietCardView BindingContext="{Binding DinnerCardViewModel}" />
-            
-            
-        </StackLayout>
+                <Views:DietCardRecipeView BindingContext="{Binding DinnerCardViewModel}" />
+
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
