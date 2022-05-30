@@ -1,4 +1,5 @@
 ﻿using DietApp.PageModels.Base;
+using DietApp.Services.Control;
 using DietApp.Services.Database;
 using DietApp.Services.Navigation;
 using DietApp.ViewModels.Buttons;
@@ -35,20 +36,7 @@ namespace DietApp.PageModels
 
         public override async Task InitializeAsync(object navigationData)
         {
-            var current = Connectivity.NetworkAccess;
-
-            if (current != NetworkAccess.Internet)
-            {
-                await App.Current.MainPage.DisplayAlert("Eroare", "Nu am acces la internet!", "OK");
-                App.Current.Quit();
-
-            }
-            else
-            {
-                await _databaseService.InitRemoteData();
-            }
-
-            await base.InitializeAsync(navigationData);
+            await _databaseService.InitRemoteData();
         }
 
         public WelcomePageModel(INavigationService navigationService, IDatabaseService databaseService)

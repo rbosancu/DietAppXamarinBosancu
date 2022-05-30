@@ -27,7 +27,7 @@ namespace DietApp
 
             if (profileService.CheckExistingUser())
             {
-                databaseService.SetCurrentDietDay();
+                await databaseService.SetCurrentDietDay();
 
                 if (databaseService.GetCurrentDietDay() > 15)
                 {

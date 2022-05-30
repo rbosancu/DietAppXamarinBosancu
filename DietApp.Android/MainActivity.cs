@@ -11,15 +11,7 @@ using Xamarin.Forms;
 namespace DietApp.Droid
 {
     [Activity(Label = "DietApp", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
-    public class ControlService : IControlService
-    {
-        public void QuitAndroidApplication()
-        {
-            var activity = MainActivity.Instance as Activity;
-            activity.Finish();
-        }
-    }
-
+    
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public static MainActivity Instance { get; set; }
@@ -37,6 +29,15 @@ namespace DietApp.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public class ControlService : IControlService
+    {
+        public void QuitAndroidApplication()
+        {
+            var activity = MainActivity.Instance as Activity;
+            activity.Finish();
         }
     }
 }

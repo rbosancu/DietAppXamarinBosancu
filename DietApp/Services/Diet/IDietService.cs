@@ -8,7 +8,6 @@ namespace DietApp.Services.Diet
 {
     public interface IDietService
     {
-        List<Aliment> RandomAliments(List<Aliment> aliments, int calories);
         List<Aliment> BreakfastAliments(List<Aliment> aliments, int calories);
         List<Recipe> LunchAliments(List<Recipe> recipes, int calories);
         List<Recipe> DinnerAliments(List<Recipe> recipes, int calories);

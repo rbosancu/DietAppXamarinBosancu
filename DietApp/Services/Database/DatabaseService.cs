@@ -1,4 +1,5 @@
 ﻿using DietApp.Models;
+using DietApp.Services.Control;
 using DietApp.Services.Diet;
 using DietApp.Services.Profile;
 using Newtonsoft.Json.Linq;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DietApp.Services.Database
@@ -33,9 +35,25 @@ namespace DietApp.Services.Database
 
         public async Task InitRemoteData()
         {
-            await SetBreakfastAliments();
-            await SetLunchAliments();
-            await SetDinnerAliments();
+            var current = Connectivity.NetworkAccess;
+
+            if (current != NetworkAccess.Internet)
+            {
+                await App.Current.MainPage.DisplayAlert("Eroare", "Nu am acces la internet!", "OK");
+
+                IControlService controlService = DependencyService.Get<IControlService>();
+                controlService.QuitAndroidApplication();
+            }
+            else
+            {
+                if (_breakfasts.Count == 0)
+                {
+                    await SetBreakfastAliments();
+                    await SetLunchAliments();
+                    await SetDinnerAliments();
+                }
+
+            }
 
             await Task.FromResult(true);
         }
@@ -263,7 +281,12 @@ namespace DietApp.Services.Database
 
         public async Task SetDietStartDate()
         {
-            Application.Current.Properties["DietStartDate"] = DateTime.Now;
+            if (!Application.Current.Properties.ContainsKey("DietStartDate"))
+            {
+                Application.Current.Properties["DietStartDate"] = DateTime.Now;
+
+                await Application.Current.SavePropertiesAsync();
+            }
 
             await Task.FromResult(true);
         }
@@ -280,7 +303,7 @@ namespace DietApp.Services.Database
             return DateTime.Now;
         }
 
-        public bool SetCurrentDietDay()
+        public async Task SetCurrentDietDay()
         {
             DateTime startDay = GetDietStartDate();
             DateTime currentDay = DateTime.Now;
@@ -289,18 +312,14 @@ namespace DietApp.Services.Database
             if (startDay.Date == currentDay.Date)
             {
                 Application.Current.Properties["DietCurrentDay"] = 1;
-                return true;
             }
 
             if ((currentDay - startDay).TotalDays <= 16)
             {
                 Application.Current.Properties["DietCurrentDay"] = (int)(currentDay - startDay).TotalDays + 1;
-                return true;
             }
-            else
-            {
-                return false;
-            }
+
+            await Task.FromResult(true);
         }
 
         public int GetCurrentDietDay()

@@ -40,10 +40,7 @@ namespace DietApp.PageModels
 
         public override Task InitializeAsync(object navigationData)
         {
-            return Task.WhenAny(base.InitializeAsync(navigationData),
-                DietPageModel.InitializeAsync(null),
-                ProfilePageModel.InitializeAsync(null),
-                SummaryPageModel.InitializeAsync(null));
-        }
+            return Task.WhenAny(base.InitializeAsync(navigationData), DietPageModel.InitializeAsync(null), ProfilePageModel.InitializeAsync(null));
+       }
     }
 }

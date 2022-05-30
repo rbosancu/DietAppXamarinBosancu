@@ -43,15 +43,13 @@ namespace DietApp.Services.Profile
 
         public async Task SetUserInfo(User user)
         {
-
             Application.Current.Properties["Gender"] = user.Gender;
             Application.Current.Properties["Name"] = user.Name;
             Application.Current.Properties["Age"] = user.Age;
             Application.Current.Properties["Height"] = user.Height;
             Application.Current.Properties["Weight"] = user.Weight;
 
-            await Task.FromResult(true);
-
+            await Application.Current.SavePropertiesAsync();
         }
     }
 }

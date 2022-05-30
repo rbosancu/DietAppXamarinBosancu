@@ -16,7 +16,7 @@ namespace DietApp.Services.Database
 
         Task SetDietStartDate();
         DateTime GetDietStartDate();
-        bool SetCurrentDietDay();
+        Task SetCurrentDietDay();
         int GetCurrentDietDay();
 
         List<Aliment> GetBreakfasts();

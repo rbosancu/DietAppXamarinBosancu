@@ -11,41 +11,13 @@ namespace DietApp.Services.Diet
 {
     public class DietService : IDietService
     {
-        private IProfileService _profileService;
-        private IDatabaseService _databaseService;
+        private readonly IProfileService _profileService;
+        private readonly IDatabaseService _databaseService;
 
         public DietService(IProfileService profileService, IDatabaseService databaseService)
         {
             _profileService = profileService;
             _databaseService = databaseService;
-        }
-
-        public List<Aliment> RandomAliments(List<Aliment> aliments, int calories)
-        {
-            int currentCalories = 0;
-            List<Aliment> localAliments = new List<Aliment>();
-            List<Aliment> currentAliments = new List<Aliment>();
-
-            foreach (Aliment aliment in aliments)
-            {
-                localAliments.Add(aliment);
-            }
-
-            while (currentCalories < calories)
-            {
-                var random = new Random();
-                int index = random.Next(localAliments.Count);
-
-                if (localAliments[index].Calorii < calories)
-                {
-                    currentAliments.Add(localAliments[index]);
-                    currentCalories += (int)Math.Floor(localAliments[index].Calorii);
-                    localAliments.Remove(localAliments[index]);
-                }
-
-            }
-
-            return currentAliments;
         }
 
         public List<Aliment> BreakfastAliments(List<Aliment> aliments, int calories)
@@ -65,10 +37,13 @@ namespace DietApp.Services.Diet
                 {
                     foreach (Aliment aliment in localAliments)
                     {
-                        double calorie = aliment.Calorii / aliment.Greutate;
+                        if (aliment.Greutate > 14)
+                        {
+                            double calorie = aliment.Calorii / aliment.Greutate;
 
-                        aliment.Calorii -= calorie;
-                        aliment.Greutate -= 1;
+                            aliment.Calorii -= calorie;
+                            aliment.Greutate -= 1;
+                        }
                     }
                 }
             }
@@ -118,10 +93,13 @@ namespace DietApp.Services.Diet
                     {
                         foreach (Aliment aliment in _recipe.Ingredients)
                         {
-                            double calorie = aliment.Calorii / aliment.Greutate;
+                            if (aliment.Greutate > 15)
+                            {
+                                double calorie = aliment.Calorii / aliment.Greutate;
 
-                            aliment.Calorii -= calorie;
-                            aliment.Greutate -= 1;
+                                aliment.Calorii -= calorie;
+                                aliment.Greutate -= 1;
+                            }
                         }
                     }
                 }
@@ -175,10 +153,13 @@ namespace DietApp.Services.Diet
                     {
                         foreach (Aliment aliment in _recipe.Ingredients)
                         {
-                            double calorie = aliment.Calorii / aliment.Greutate;
+                            if (aliment.Greutate > 15)
+                            {
+                                double calorie = aliment.Calorii / aliment.Greutate;
 
-                            aliment.Calorii -= calorie;
-                            aliment.Greutate -= 1;
+                                aliment.Calorii -= calorie;
+                                aliment.Greutate -= 1;
+                            }
                         }
                     }
                 }
@@ -266,7 +247,7 @@ namespace DietApp.Services.Diet
             User user = _profileService.GetUserInfo();
             List<string> genders = _databaseService.GetGenderOptions();
 
-            int dailyCalories = 0;
+            int dailyCalories;
 
             if (user.Gender == genders[0])
             {

@@ -24,8 +24,7 @@ namespace DietApp.PageModels
         private readonly IProfileService _profileService;
         private readonly IValidationService _validationService;
         private readonly IDatabaseService _databaseService;
-        private readonly IDietService _dietService;
-        private List<string> _genderOptions;
+        private readonly List<string> _genderOptions;
 
         public OnboardingPickerViewModel GenderPickerViewModel { get; set; }
         public ErrorLabelModel GenderErrorLabel { get; set; }
@@ -43,13 +42,12 @@ namespace DietApp.PageModels
         public ButtonModel StartButton { get; set; }
 
 
-        public OnboardingPageModel(INavigationService navigationService, IProfileService profileService, IValidationService validationService, IDatabaseService databaseService, IDietService dietService)
+        public OnboardingPageModel(INavigationService navigationService, IProfileService profileService, IValidationService validationService, IDatabaseService databaseService)
         {
             _navigationService = navigationService;
             _profileService = profileService;
             _validationService = validationService;
             _databaseService = databaseService;
-            _dietService = dietService;
 
             _genderOptions = _databaseService.GetGenderOptions();
 
@@ -81,15 +79,17 @@ namespace DietApp.PageModels
 
             if (checkGender && checkName && checkAge && checkHeight && checkWeight)
             {
-                User user = new User(convertGender(GenderPickerViewModel.SelectedIndex), NameEntryViewModel.Text, int.Parse(AgeEntryViewModel.Text), int.Parse(HeightEntryViewModel.Text), double.Parse(WeightEntryViewModel.Text));
+                User user = new User(ConvertGender(GenderPickerViewModel.SelectedIndex), NameEntryViewModel.Text, int.Parse(AgeEntryViewModel.Text), int.Parse(HeightEntryViewModel.Text), double.Parse(WeightEntryViewModel.Text));
                 await _profileService.SetUserInfo(user);
+
                 await _databaseService.SetDietStartDate();
-                _databaseService.SetCurrentDietDay();
+                await _databaseService.SetCurrentDietDay();
+
                 await _navigationService.NavigateToAsync<DashboardPageModel>();
             }
         }
 
-        private string convertGender (int selectedIndex)
+        private string ConvertGender (int selectedIndex)
         {
             if (selectedIndex == 1)
             {
