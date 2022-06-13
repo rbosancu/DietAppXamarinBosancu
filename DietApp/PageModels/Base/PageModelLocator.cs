@@ -1,7 +1,6 @@
 ﻿using DietApp.Pages;
 using DietApp.Services.Database;
 using DietApp.Services.Diet;
-using DietApp.Services.Helper;
 using DietApp.Services.Navigation;
 using DietApp.Services.Profile;
 using DietApp.Services.Validation;
